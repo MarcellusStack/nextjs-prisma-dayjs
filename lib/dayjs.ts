@@ -24,9 +24,13 @@ export const toUTC = (date: Date) => {
 };
 
 export const toUTCTime = (timeString: string) => {
-  // Create a date object for today with the given time
-  const today = dayjs().utc().format("YYYY-MM-DD");
-  return dayjs(`${today} ${timeString}`, "YYYY-MM-DD HH:mm").utc().toDate();
+  // Create a date object for today with the given time in German timezone
+  const today = dayjs().tz("Europe/Berlin").format("YYYY-MM-DD");
+  // Create the datetime in German timezone, then convert to UTC for storage
+  return dayjs
+    .tz(`${today} ${timeString}`, "YYYY-MM-DD HH:mm", "Europe/Berlin")
+    .utc()
+    .toDate();
 };
 
 export const toLocalDate = (date: Date) => {
@@ -39,12 +43,13 @@ export const toLocalDateTime = (date: Date) => {
 
 export const toLocalTime = (time: Date | null) => {
   if (!time) return null;
-  return dayjs(time).tz("Europe/Berlin");
+  // Convert UTC time to German timezone
+  return dayjs.utc(time).tz("Europe/Berlin");
 };
 
 export const formatTime = (time: Date | null) => {
   if (!time) return "";
-  // Convert to local timezone and format
+  // Convert UTC time to German timezone and format
   const localTime = toLocalTime(time);
   if (!localTime) return "";
   return localTime.format("HH:mm");
