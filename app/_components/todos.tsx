@@ -23,7 +23,6 @@ export const Todos = ({ todos }: { todos: TodoProps }) => {
           <p>Updated at: {dayjs(todo.updatedAt).format("DD.MM.YYYY HH:mm")}</p>
         </div>
       ))}
-
       <AddTodo />
     </div>
   );
@@ -44,7 +43,11 @@ export const AddTodo = () => {
   return (
     <form
       onSubmit={form.onSubmit((values) => {
-        execute(values);
+        execute({
+          datetime: toLocalDateTime(values.datetime).toDate(),
+          date: toLocalDate(values.date).toDate(),
+          title: values.title,
+        });
       })}
     >
       <DateInput

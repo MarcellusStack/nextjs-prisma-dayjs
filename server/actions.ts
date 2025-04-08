@@ -19,8 +19,8 @@ export const createTodo = actionClient
     try {
       await prisma.todo.create({
         data: {
-          datetime: new Date(datetime),
-          date: new Date(date),
+          datetime: toUTC(datetime).toDate(),
+          date: toUTC(date).startOf("day").toDate(),
           title: title,
         },
       });
