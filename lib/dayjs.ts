@@ -24,8 +24,8 @@ export const toUTC = (date: Date) => {
 };
 
 export const toUTCTime = (timeString: string) => {
-  // Create a date object for today with the given time
-  const today = dayjs().tz("Europe/Berlin").format("YYYY-MM-DD");
+  // Create a date object for today with the given time, keeping the time as-is
+  const today = dayjs().utc().format("YYYY-MM-DD");
   return dayjs(`${today} ${timeString}`, "YYYY-MM-DD HH:mm").utc().toDate();
 };
 
@@ -39,12 +39,14 @@ export const toLocalDateTime = (date: Date) => {
 
 export const toLocalTime = (time: Date | null) => {
   if (!time) return null;
-  return dayjs(time).tz("Europe/Berlin");
+  // Use UTC methods to preserve the hour value
+  return dayjs.utc(time);
 };
 
 export const formatTime = (time: Date | null) => {
   if (!time) return "";
-  return dayjs(time).tz("Europe/Berlin").format("HH:mm");
+  // Use UTC format to avoid timezone conversion
+  return dayjs.utc(time).format("HH:mm");
 };
 
 export { dayjsExt };

@@ -28,12 +28,12 @@ export const createTodo = actionClient
           time: time ? toUTCTime(time) : null,
         },
       });
-    } catch {
+    } catch (error) {
+      console.error(error);
       return { success: false, message: "Todo creation failed" };
     }
 
     revalidatePath("/");
-
     return { success: true, message: "Todo created" };
   });
 
