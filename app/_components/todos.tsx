@@ -19,8 +19,14 @@ export const Todos = ({ todos }: { todos: TodoProps }) => {
             {toLocalDateTime(todo.datetime).format("DD.MM.YYYY HH:mm")}
           </p>
           <p>Date: {toLocalDate(todo.date).format("DD.MM.YYYY")}</p>
-          <p>Created at: {dayjs(todo.createdAt).format("DD.MM.YYYY HH:mm")}</p>
-          <p>Updated at: {dayjs(todo.updatedAt).format("DD.MM.YYYY HH:mm")}</p>
+          <p>
+            Created at:{" "}
+            {toLocalDateTime(todo.createdAt).format("DD.MM.YYYY HH:mm")}
+          </p>
+          <p>
+            Updated at:{" "}
+            {toLocalDateTime(todo.updatedAt).format("DD.MM.YYYY HH:mm")}
+          </p>
         </div>
       ))}
       <AddTodo />
@@ -43,11 +49,7 @@ export const AddTodo = () => {
   return (
     <form
       onSubmit={form.onSubmit((values) => {
-        execute({
-          datetime: toLocalDateTime(values.datetime).toDate(),
-          date: toLocalDate(values.date).toDate(),
-          title: values.title,
-        });
+        execute(values);
       })}
     >
       <DateInput
