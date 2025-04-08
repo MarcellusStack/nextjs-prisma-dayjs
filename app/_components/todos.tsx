@@ -4,8 +4,8 @@ import React from "react";
 import { createTodo, type TodoProps } from "@/server/actions";
 import { useStateAction } from "next-safe-action/stateful-hooks";
 import { useForm } from "@mantine/form";
-import { DateInput, DateTimePicker } from "@mantine/dates";
-import { toLocalDate, toLocalDateTime } from "@/lib/dayjs";
+import { DateInput, DateTimePicker, TimeInput } from "@mantine/dates";
+import { toLocalDate, toLocalDateTime, formatTime } from "@/lib/dayjs";
 
 export const Todos = ({ todos }: { todos: TodoProps }) => {
   return (
@@ -14,6 +14,7 @@ export const Todos = ({ todos }: { todos: TodoProps }) => {
       {todos.map((todo) => (
         <div key={todo.id} className="border border-green-600">
           <p>Title: {todo.title}</p>
+          <p>Time: {formatTime(todo.time)}</p>
           <p>
             DateTime:{" "}
             {toLocalDateTime(todo.datetime).format("DD.MM.YYYY HH:mm")}
@@ -43,6 +44,7 @@ export const AddTodo = () => {
       datetime: new Date(),
       date: new Date(),
       title: "t",
+      time: "",
     },
   });
 
@@ -66,6 +68,11 @@ export const AddTodo = () => {
         placeholder="Pick date and time"
         key={form.key("datetime")}
         {...form.getInputProps("datetime")}
+      />
+      <TimeInput
+        label="Time"
+        key={form.key("time")}
+        {...form.getInputProps("time")}
       />
       <button type="submit" disabled={status === "executing"}>
         {status === "executing" ? "Adding..." : "Add Todo"}

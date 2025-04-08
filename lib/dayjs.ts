@@ -23,12 +23,28 @@ export const toUTC = (date: Date) => {
   return dayjs(date).utc();
 };
 
+export const toUTCTime = (timeString: string) => {
+  // Create a date object for today with the given time
+  const today = dayjs().tz("Europe/Berlin").format("YYYY-MM-DD");
+  return dayjs(`${today} ${timeString}`, "YYYY-MM-DD HH:mm").utc().toDate();
+};
+
 export const toLocalDate = (date: Date) => {
   return dayjs(date).tz("Europe/Berlin").startOf("day");
 };
 
 export const toLocalDateTime = (date: Date) => {
   return dayjs(date).tz("Europe/Berlin");
+};
+
+export const toLocalTime = (time: Date | null) => {
+  if (!time) return null;
+  return dayjs(time).tz("Europe/Berlin");
+};
+
+export const formatTime = (time: Date | null) => {
+  if (!time) return "";
+  return dayjs(time).tz("Europe/Berlin").format("HH:mm");
 };
 
 export { dayjsExt };

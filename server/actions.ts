@@ -3,33 +3,34 @@
 import { z } from "zod";
 import { actionClient } from "@/lib/action-clients";
 import { prisma } from "@/lib/prisma";
-import { toUTC } from "@/lib/dayjs";
+import { toUTC, toUTCTime } from "@/lib/dayjs";
 import { revalidatePath } from "next/cache";
 
-// This schema is used to validate input from client.
 const schema = z.object({
   datetime: z.date(),
   date: z.date(),
   title: z.string().min(1),
+  time: z
+    .string()
+    .regex(/^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/)
+    .optional(),
 });
 
 export const createTodo = actionClient
   .schema(schema)
-  .stateAction(async ({ parsedInput: { datetime, date, title } }) => {
+  .stateAction(async ({ parsedInput: { datetime, date, title, time } }) => {
     try {
       await prisma.todo.create({
         data: {
           datetime: toUTC(datetime).toDate(),
           date: toUTC(date).startOf("day").toDate(),
           title: title,
+          time: time ? toUTCTime(time) : null,
         },
       });
-    } catch (error) {
-      console.error(error);
+    } catch {
       return { success: false, message: "Todo creation failed" };
     }
-
-    console.log("Todo created");
 
     revalidatePath("/");
 
@@ -49,10 +50,9 @@ export const getTodos = async () => {
       completed: true,
       datetime: true,
       date: true,
+      time: true,
     },
   });
-
-  console.log(todos);
 
   return todos;
 };
