@@ -5,7 +5,7 @@ import { createTodo, type TodoProps } from "@/server/actions";
 import { useStateAction } from "next-safe-action/stateful-hooks";
 import { useForm } from "@mantine/form";
 import { DateInput, DateTimePicker } from "@mantine/dates";
-import { dayjsExt as dayjs, toLocalDate, toLocalDateTime } from "@/lib/dayjs";
+import { toLocalDate, toLocalDateTime } from "@/lib/dayjs";
 
 export const Todos = ({ todos }: { todos: TodoProps }) => {
   return (
