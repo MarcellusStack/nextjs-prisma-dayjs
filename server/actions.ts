@@ -56,3 +56,5 @@ export const getTodos = async () => {
 
   return todos;
 };
+
+export type TodoProps = NonNullable<Awaited<ReturnType<typeof getTodos>>>;

@@ -1,13 +1,13 @@
 "use client";
 
 import React from "react";
-import { createTodo } from "@/server/actions";
+import { createTodo, type TodoProps } from "@/server/actions";
 import { useStateAction } from "next-safe-action/stateful-hooks";
 import { useForm } from "@mantine/form";
 import { DateInput, DateTimePicker } from "@mantine/dates";
 import { dayjsExt as dayjs, toLocalDate, toLocalDateTime } from "@/lib/dayjs";
 
-export const Todos = ({ todos }) => {
+export const Todos = ({ todos }: { todos: TodoProps }) => {
   return (
     <div className="flex flex-col gap-4">
       <h1 className="text-2xl font-bold">Todos</h1>
