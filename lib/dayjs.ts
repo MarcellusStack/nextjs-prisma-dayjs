@@ -45,7 +45,9 @@ export const toLocalTime = (time: Date | null) => {
 export const formatTime = (time: Date | null) => {
   if (!time) return "";
   // Convert to local timezone and format
-  return toLocalTime(time).format("HH:mm");
+  const localTime = toLocalTime(time);
+  if (!localTime) return "";
+  return localTime.format("HH:mm");
 };
 
 export { dayjsExt };
